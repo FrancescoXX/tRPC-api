@@ -12,12 +12,12 @@ export default function Home() {
   const [userIdToDelete, setUserIdToDelete] = useState("");
 
   //define functions
-  const fetchAllUsers = api.example.getAll.useQuery();
-  const fetchOneUser = api.example.getOne.useQuery({ id: userId });
+  const fetchAllUsers = api.post.getAll.useQuery();
+  const fetchOneUser = api.post.getOne.useQuery({ id: userId });
 
-  const createUserMutation = api.example.createUser.useMutation();
-  const updateUserMutation = api.example.updateUser.useMutation();
-  const deleteUserMutation = api.example.deleteUser.useMutation();
+  const createUserMutation = api.post.createUser.useMutation();
+  const updateUserMutation = api.post.updateUser.useMutation();
+  const deleteUserMutation = api.post.deleteUser.useMutation();
 
   //define handlers
   const handleCreateUser = async () => {
