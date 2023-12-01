@@ -14,35 +14,32 @@ const userUpdateSchema = z.object({
   email: z.string(),
 });
 
-export const exampleRouter = createTRPCRouter({
+export const postRouter = createTRPCRouter({
   //get all users
   getAll: publicProcedure.query(({ ctx }) => {
-    return ctx.prisma.user.findMany();
+    return ctx.db.user.findMany();
   }),
 
   //get user by id
-  getOne: publicProcedure
-    .input(idSchema)
-    .query(({ input, ctx }) => {
-      return ctx.prisma.user.findUnique({
-        where: idSchema.parse(input),
-      });
-    }),
+  getOne: publicProcedure.input(idSchema).query(({ input, ctx }) => {
+    return ctx.db.user.findUnique({
+      where: idSchema.parse(input),
+    });
+  }),
 
   //create user
-  createUser: publicProcedure
-    .input(userSchema)
-    .mutation(({ input, ctx }) => {
-      return ctx.prisma.user.create({
-        data: userSchema.parse(input),
-      });
-    }),
+  createUser: publicProcedure.input(userSchema).mutation(({ input, ctx }) => {
+    console.log("Sending createUser response");
+    return ctx.db.user.create({
+      data: userSchema.parse(input),
+    });
+  }),
 
   //update user
   updateUser: publicProcedure
     .input(userUpdateSchema)
     .mutation(({ input, ctx }) => {
-      return ctx.prisma.user.update({
+      return ctx.db.user.update({
         where: {
           id: input.id.toString(),
         },
@@ -51,11 +48,9 @@ export const exampleRouter = createTRPCRouter({
     }),
 
   //delete user
-  deleteUser: publicProcedure
-    .input(idSchema)
-    .mutation(({ input, ctx }) => {
-      return ctx.prisma.user.delete({
-        where: idSchema.parse(input),
-      });
-    }),
+  deleteUser: publicProcedure.input(idSchema).mutation(({ input, ctx }) => {
+    return ctx.db.user.delete({
+      where: idSchema.parse(input),
+    });
+  }),
 });
